@@ -1,0 +1,596 @@
+swagger: '2.0'
+info:
+  title: Foursales Demo
+  version: "1.0.0"
+host: localhost:8080
+basePath: /foursales-demo/api/v1
+consumes:
+  - application/json
+produces:
+  - application/json
+tags:
+  - name: Candidate
+  - name: Credit Card
+paths:
+
+  /candidates:
+    post:
+      summary: Create a candidate
+      description:  |
+        ## Responsabilidades
+
+        * Esse endpoint é responsável pelo cadastro do candidato.
+
+      operationId: createCandidate
+      tags:
+        - Candidate
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/CandidateRequest'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+
+    get:
+      summary: List all candidates
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of list all candidates.
+
+        ---
+        ## Requirements
+        * To access this endpoint, you must have one of the following sets of roles:
+          * `CLI-1STPARTY` and `CLI-AUTH-BASIC`
+          * `CLI-1STPARTY`, `CLI-AUTH-IDENTIFIED`, `USER-AUTH-BASIC` and `SYADMIN`
+
+      operationId: findAllCandidates
+      tags:
+        - Candidate
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      responses:
+        '200':
+          description: |
+            Subscriber's list.
+          schema:
+            $ref: '#/definitions/Candidates'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: |
+            Authorization Failed.
+            This endpoint can throw the following errors:
+            * JWT is not valid
+            `
+            {"code": "401", "description": "JWT is not valid"}
+            `
+            * JWT does not have permission
+            `
+            {"code": "401", "description": "Unauthorized"}
+            `
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+        'default':
+          description: Default
+          schema:
+            $ref: '#/definitions/Error'
+
+  /candidates/{candidateId}:
+    get:
+      summary: Find a candidate by id
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of find a candidate by id.
+
+
+      operationId: findCandidateById
+      tags:
+        - Candidate
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Candidate'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: Update a candidate by id
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of update a candidate by id.
+
+
+      operationId: updateCandidateById
+      tags:
+        - Candidate
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/CandidateRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: Delete a candidate by id
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of find a candidate by id.
+
+        ---
+        ## Requirements
+        * To access this endpoint, you must have one of the following sets of roles:
+          * `CLI-1STPARTY` and `CLI-AUTH-BASIC`
+          * `CLI-1STPARTY`, `CLI-AUTH-IDENTIFIED`, `USER-AUTH-BASIC` and `SYADMIN`
+
+      operationId: deleteCandidateById
+      tags:
+        - Candidate
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Candidate'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+
+  /candidates/{candidateId}/credit-cards:
+    post:
+      tags:
+        - Credit Card
+      summary: Create a credit card for a candidate
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of create a credit card for a candidate.
+
+      operationId: createCreditCard
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreditCardRequest'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+
+  /candidates/{candidateId}/credit-cards/{creditCardId}:
+    get:
+      tags:
+        - Credit Card
+      summary: Get a credit card from a candidate
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of get a credit card from a candidate.
+
+      operationId: getCreditCard
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+        - in: path
+          name: creditCardId
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CreditCard'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      tags:
+        - Credit Card
+      summary: Update a credit card from a candidate
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of update a credit card from a candidate.
+
+      operationId: updateCreditCard
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+        - in: path
+          name: creditCardId
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/CreditCardRequest'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      tags:
+        - Credit Card
+      summary: Delete a credit card from a candidate
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of delete a credit card from a candidate.
+
+      operationId: deleteCreditCard
+      produces:
+        - application/json
+      security:
+        - OauthSecurityClient:
+            - read
+            - write
+      parameters:
+        - in: path
+          name: candidateId
+          required: true
+          type: integer
+          format: int32
+        - in: path
+          name: creditCardId
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
+
+securityDefinitions:
+  OauthSecurityClient:
+    type: oauth2
+    flow: application
+    tokenUrl: 'https://sandbox-api.serasaexperian.com.br/security/iam/v1/client-identities/login'
+    scopes:
+      read: Client read scope
+      write: Client write scope
+
+definitions:
+  CreditCardRequest:
+    type: object
+    required:
+      - name
+      - brand
+      - cardNumber
+      - expirationDate
+      - cvv
+    properties:
+      name:
+        type: string
+      brand:
+        type: string
+      cardNumber:
+        type: string
+      expirationDate:
+        type: string
+      cvv:
+        type: string
+
+  CreditCard:
+    type: object
+    required:
+      - id
+      - name
+      - brand
+      - cardNumber
+      - expirationDate
+      - cvv
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      brand:
+        type: string
+      cardNumber:
+        type: string
+      expirationDate:
+        type: string
+      cvv:
+        type: string
+
+  CandidateRequest:
+    type: object
+    required:
+      - name
+      - email
+    properties:
+      name:
+        type: string
+      email:
+        type: string
+
+  Candidates:
+    type: array
+    items:
+      $ref: '#/definitions/Candidate'
+
+  Candidate:
+    type: object
+    required:
+      - id
+      - name
+      - email
+    properties:
+      id:
+        type: integer
+        format: int32
+      name:
+        type: string
+      email:
+        type: string
+
+  Error:
+    required:
+      - timestamp
+      - status
+      - error
+      - message
+      - path
+    properties:
+      timestamp:
+        type: string
+      status:
+        type: integer
+        format: int32
+      error:
+        type: string
+      message:
+        type: string
+      path:
+        type: string
+
+

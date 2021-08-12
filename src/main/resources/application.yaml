@@ -1,0 +1,19 @@
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+server:
+  error:
+    include-message: always
+
+encryption:
+  algorithm: "AES"
+  transformation: "AES/CBC/PKCS5Padding"
+  charsetName: "UTF-8"
+  ivParameterSpec: "s3cret-f0urs4l3s"
+  key: "5ebb10f17146b47f832b251f"
+
