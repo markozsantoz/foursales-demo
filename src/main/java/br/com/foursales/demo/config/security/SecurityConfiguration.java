@@ -26,12 +26,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+        var authenticationFilter = new AuthenticationFilter(authenticationManager());
+        authenticationFilter.setFilterProcessesUrl("/foursales-demo/api/v1/login");
+
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(DELETE).permitAll()
                 .anyRequest().authenticated().and()
-                .addFilter(new AuthenticationFilter(authenticationManager()))
+                .addFilter(authenticationFilter)
                 .addFilter(new AuthorizationFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(STATELESS);
     }

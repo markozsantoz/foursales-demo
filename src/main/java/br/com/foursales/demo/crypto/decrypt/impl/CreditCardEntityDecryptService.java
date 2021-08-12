@@ -3,7 +3,6 @@ package br.com.foursales.demo.crypto.decrypt.impl;
 
 import br.com.foursales.demo.crypto.AbstractCryptoService;
 import br.com.foursales.demo.crypto.decrypt.DecryptService;
-import br.com.foursales.demo.entity.CandidateEntity;
 import br.com.foursales.demo.entity.CreditCardEntity;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;

@@ -9,17 +9,62 @@ consumes:
 produces:
   - application/json
 tags:
+  - name: Login
   - name: Candidate
   - name: Credit Card
 paths:
+
+  /login:
+    post:
+      summary: Login user
+      description:  |
+        ## Responsibilities
+
+        * This endpoint has the function of log the user.
+        * Username and password should be passed as basic access authentication. Header field in the form of Authorization: Basic <credentials>, where credentials is the Base64 encoding of username and password joined by a single colon :
+        * The response contains an Authorization header with a Bearer token used for other requests
+
+        username: test@foursales.com
+        password: 123456
+
+      operationId: login
+      tags:
+        - Login
+      produces:
+        - application/json
+      security:
+        - BasicAuth: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '401':
+          description: Authorization Failed
+          schema:
+            $ref: '#/definitions/Error'
+        '422':
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: Service Unavailable
+          schema:
+            $ref: '#/definitions/Error'
 
   /candidates:
     post:
       summary: Create a candidate
       description:  |
-        ## Responsabilidades
+        ## Responsibilities
 
-        * Esse endpoint é responsável pelo cadastro do candidato.
+        * This endpoint has the function of create the candidate.
 
       operationId: createCandidate
       tags:
@@ -27,9 +72,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: body
           name: body
@@ -79,9 +122,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       responses:
         '200':
           description: |
@@ -138,9 +179,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -186,9 +225,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -242,9 +279,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -291,9 +326,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -343,9 +376,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -395,9 +426,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -450,9 +479,7 @@ paths:
       produces:
         - application/json
       security:
-        - OauthSecurityClient:
-            - read
-            - write
+        - Bearer: []
       parameters:
         - in: path
           name: candidateId
@@ -489,13 +516,12 @@ paths:
             $ref: '#/definitions/Error'
 
 securityDefinitions:
-  OauthSecurityClient:
-    type: oauth2
-    flow: application
-    tokenUrl: 'https://sandbox-api.serasaexperian.com.br/security/iam/v1/client-identities/login'
-    scopes:
-      read: Client read scope
-      write: Client write scope
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+  BasicAuth:
+    type: basic
 
 definitions:
   CreditCardRequest:

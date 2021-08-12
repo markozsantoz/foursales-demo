@@ -50,6 +50,8 @@ public class CandidateServiceImpl implements CandidateService {
 
     @Override
     public Iterable<CandidateEntity> findAllCandidates(){
-        return repository.findAll();
+        var entities = repository.findAll();
+        entities.forEach(e -> decryptService.decrypt(e));
+        return entities;
     }
 }
